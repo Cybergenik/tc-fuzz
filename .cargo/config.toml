@@ -1,0 +1,3 @@
+[target.x86_64-unknown-linux-gnu]
+# for -fsanitize=address,undefined runtime libs.
+linker = "clang"

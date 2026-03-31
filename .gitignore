@@ -1,0 +1,6 @@
+/target
+/crashes
+/diffs
+/.profraw
+*.profraw
+Cargo.lock

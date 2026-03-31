@@ -1,0 +1,96 @@
+direction: right
+
+grammar: Generator {
+  shape: circle
+  style: {
+    fill: "#1e1b4b"
+    stroke: "#818cf8"
+    bold: true
+  }
+}
+
+corpus: Corpus {
+  shape: cylinder
+  style: {
+    fill: "#8a4e2a"
+  }
+}
+
+mut: Mutator {
+  shape: queue
+  style: {
+    fill: "#2d4a6a"
+    bold: true
+  }
+}
+
+engine: Differential Fuzzing Engine {
+  style: {
+    stroke: "#3b82f6"
+    border-radius: 12
+    bold: true
+  }
+  grid-rows: 1
+
+  target: TC-Calc {
+    style: {
+      fill: "#2a5a38"
+      stroke: "#ca8a04"
+      border-radius: 8
+      bold: true
+    }
+  }
+
+  cmp: ≠ {
+    shape: diamond
+    height: 50
+    width: 50
+    style: {
+      fill: "#e0e7ff"
+      stroke: "#4338ca"
+      font-color: "#1e1b4b"
+      bold: true
+    }
+  }
+
+  oracle: Python Oracle {
+    shape: cylinder
+    style: {
+      fill: "#6a2a40"
+      stroke: "#e11d48"
+      bold: true
+    }
+  }
+
+  target -> cmp: ===
+  oracle -> cmp: ===
+}
+
+crashes: crashes/ {
+  style: {
+    fill: "#fee2e2"
+    stroke: "#dc2626"
+    border-radius: 8
+    font-color: "#7f1d1d"
+  }
+}
+
+diffs: diffs/ {
+  style: {
+    fill: "#fee2e2"
+    stroke: "#dc2626"
+    border-radius: 8
+    font-color: "#7f1d1d"
+  }
+}
+
+# Fuzz loop — all arrows at container boundary, no internal node refs
+corpus -> mut: cov-select
+mut -> engine: expr
+engine -> crashes: out
+engine -> diffs: out
+engine -> corpus: coverage
+
+# Grammar Oracle feeds the loop from outside
+grammar -> corpus: seeds
+grammar -> mut: sub-exprs

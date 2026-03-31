@@ -1,0 +1,23 @@
+[package]
+name = "tc-fuzz"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libafl = { version = "0.15", features = ["tui_monitor"] }
+libafl_bolts = "0.15"
+libafl_targets = { version = "0.15", default-features = false, features = [
+    "std", "common", "coverage", "sancov_pcguard_hitcounts", "pointer_maps",
+] }
+serde = { version = "1", features = ["derive"] }
+libc = "0.2"
+
+[features]
+ubsan = []
+
+[build-dependencies]
+cc = "1.2"
+
+[profile.release]
+opt-level = 3
+debug = true
